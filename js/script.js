@@ -14,9 +14,11 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function showTabContent(i) {
+  function showTabContent(i = 0) {
     tabsContent[i].style.display = 'block';
     tabs[i].classList.add('tabheader__item_active');
   }
 
+  hideTabContent();
+  showTabContent();
 });
