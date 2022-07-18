@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Timer
 
-  const deadline = '2022-07-22';
+  const deadline = '2022-07-22'; // write deadlina date format YY-MM-DD
 
   function getTimeRemaining(endtime) {
     let days, hours, minutes, seconds;
@@ -230,10 +230,22 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   forms.forEach(item => { 
-    postData(item);
+    bindPostData(item);
   });
 
-  function postData(form) {
+  const postData = async (url, data) => {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: data
+    });
+
+    return await res.json();
+  };
+
+  function bindPostData(form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -247,26 +259,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
       const formData = new FormData(form);
 
-      const object = {};
-      formData.forEach(function (value, key) { 
-        object[key] = value;
-      });
+      const json = JSON.stringify(Object.fromEntries(formData.entries())); //formData to JSON
 
-      fetch('server.php', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(object)
+      postData('http://localhost:3000/requests', json)
+      .then(data => {
+        console.log(data);
+        showThanksModal(message.success);
+        statusMessage.remove();
       })
-        .then(data => data.text())
-        .then(data => {
-          console.log(data);
-          showThanksModal(message.success);
-          statusMessage.remove();
-        })
-        .catch(() => showThanksModal(message.failure))
-        .finally(()=>form.reset());
+      .catch(() => showThanksModal(message.failure))
+      .finally(()=>form.reset());
 
     });
     
@@ -294,4 +296,8 @@ window.addEventListener('DOMContentLoaded', () => {
       closeModal();
     }, 4000);
   }
+
+  fetch('http://localhost:3000/menu')
+    .then(data => data.json())
+    .then(res => console.log(res));
 });
