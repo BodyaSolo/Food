@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Timer
 
-  const deadline = '2022-07-14';
+  const deadline = '2022-07-22';
 
   function getTimeRemaining(endtime) {
     let days, hours, minutes, seconds;
@@ -87,7 +87,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     function updateClock() {
       const t = getTimeRemaining(endtime);
-
+      
       days.innerHTML = getZero(t.days);
       hours.innerHTML = getZero(t.hours);
       minutes.innerHTML = getZero(t.minutes);
