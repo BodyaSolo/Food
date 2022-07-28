@@ -1,8 +1,5 @@
-function timer() {
-  // Timer
-
-  const deadline = '2022-07-22'; // write deadlina date format YY-MM-DD
-
+function timer(id, deadline) {
+ 
   function getTimeRemaining(endtime) {
     let days, hours, minutes, seconds;
     const t = Date.parse(endtime) - Date.parse(new Date());
@@ -59,7 +56,7 @@ function timer() {
     }
   }
 
-  setClock('.timer', deadline);
+  setClock(id, deadline);
 }
 
-module.exports = timer;
+export default timer;
